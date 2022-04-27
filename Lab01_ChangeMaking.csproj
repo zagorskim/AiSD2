@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Graphs">
+      <HintPath>..\dll\Graphs.dll</HintPath>
+    </Reference>
     <Reference Include="TestSet">
       <HintPath>..\Lab1\TestSet.dll</HintPath>
     </Reference>
