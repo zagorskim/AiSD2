@@ -17,21 +17,6 @@ namespace Lab10
         /// <returns>Informację czy istnieje trasa oraz tablicę reprezentującą kolejne wierzchołki w trasie (pierwszy i ostatni element tablicy musi być 0). W przypadku, gdy zwracany jest false, wartość tego pola nie jest sprawdzana, może być null.</returns>
         public (bool routeExists, int[] route) PlanDelivery(Graph<int> railway, int[] eggDemand, int truckCapacity, int tankEngineRange, bool[] isRefuelStation, bool anySolution)
         {
-            //int[] a = { 5, 14, 24, 29 };
-            //Console.WriteLine();
-            //for (int i = 0; i < railway.VertexCount; i++)
-            //{
-            //    if (a.Contains(i))
-            //        Console.ForegroundColor = System.ConsoleColor.Red;
-            //    else
-            //        Console.ForegroundColor = System.ConsoleColor.Blue;
-            //    Console.Write("{0}", i);
-            //    Console.ForegroundColor = System.ConsoleColor.White;
-            //    foreach (var v in railway.OutEdges(i))
-            //        Console.Write(" {0}", v.To);
-            //    Console.WriteLine();
-            //}
-
             var dp = new DeliveryPath(railway, eggDemand, truckCapacity, tankEngineRange, isRefuelStation, anySolution);
             dp.FindPath();
             if (dp.resExists)
@@ -151,16 +136,14 @@ namespace Lab10
                 currEggsLost -= added1;
                 currRangeLost -= added2;
                 currSold.Pop();
-                distance -= currDist.Pop();
+                currDist.Pop();
                 currPath.RemoveAt(currPath.Count - 1);
             }
             public void ContinueTravel(int place)
             {
-                //if (currRangeLost > distance)
+                //if (maxEggs - currEggsLost < railway.VertexCount - (currPath.Count - count))
                 //    return;
-                if (maxEggs - currEggsLost < railway.VertexCount - (currPath.Count - count))
-                    return;
-                if (currPath.Count > bestCount && bestCount != 0 || currDist.Peek() == 0)
+                if (bestRange < distance && bestCount != 0)
                     return;
                 foreach(var e in railway.OutEdges(place))
                 {
@@ -173,6 +156,7 @@ namespace Lab10
                         currRange -= e.weight;
                         distance += e.weight;
                         DeliverEggs(e.To);
+                        distance -= e.weight;
                     }
                 }
             }
