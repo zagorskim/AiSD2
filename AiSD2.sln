@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab09_Kampania_Wyborcza", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab10", "Lab10\Lab10.csproj", "{9B8A93F8-87AB-4D2B-8D4F-5B5734A3900D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab11_Pole_Sumy_Prostokatow", "Lab11_Pole_Sumy_Prostokatow\Lab11_Pole_Sumy_Prostokatow.csproj", "{F8A2296F-1E8B-4AE9-A134-4644094D015C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab11_Laczenie_Pol", "Lab11_Laczenie_Pol\Lab11_Laczenie_Pol.csproj", "{8C8D9484-81F6-4C3C-A51A-E9A66F8E879F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{9B8A93F8-87AB-4D2B-8D4F-5B5734A3900D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B8A93F8-87AB-4D2B-8D4F-5B5734A3900D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B8A93F8-87AB-4D2B-8D4F-5B5734A3900D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A2296F-1E8B-4AE9-A134-4644094D015C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A2296F-1E8B-4AE9-A134-4644094D015C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A2296F-1E8B-4AE9-A134-4644094D015C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A2296F-1E8B-4AE9-A134-4644094D015C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8D9484-81F6-4C3C-A51A-E9A66F8E879F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8D9484-81F6-4C3C-A51A-E9A66F8E879F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8D9484-81F6-4C3C-A51A-E9A66F8E879F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8D9484-81F6-4C3C-A51A-E9A66F8E879F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
