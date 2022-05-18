@@ -220,7 +220,9 @@ namespace ASD
             var tests = new PolygonsHullTester();
             tests.PrepareTestSets();
             foreach (var testSet in tests.TestSets.Values)
+            {
                 testSet.PerformTests(false);
+            }
         }
     }
 }
