@@ -17,28 +17,35 @@ namespace ASD_lab14
         /// </returns>
         public (int length, string longestSubstring) StageOne(string text)
         {
-            int maxlen = 0;
-            int index = -1;
+            int maxlen = 0, index = -1;
             string res = "";
+
             for (int i = 0; i < text.Length; i++)
             {
-                var temp = new char[text.Length - i];
-                for (int j = i; j < text.Length; j++)
-                {
-                    temp[j - i] = text[j];
-                }
-                var p = makeP(new string(temp));
-                for (int j = 0; j < temp.Length; j++)
-                {
-                    if (p[j] > maxlen && p[j] <= temp.Length / 2)
+                string temp = text.Substring(i, text.Length - i);
+                var p = makeP(temp);
+
+                for (int j = 0; j <= temp.Length; j++)
+                    if (p[j] > maxlen)
                     {
-                        index = i;
-                        maxlen = p[j];
+                        if (p[j] > j / 2)
+                        {
+                            if (j / 2 > maxlen)
+                            {
+                                index = i;
+                                maxlen = (p[j] + 1) / 2;
+                            }
+                        }
+                        else
+                        {
+                            index = i;
+                            maxlen = p[j];
+                        }
                     }
-                }
             }
             if (index > -1)
                 res = text.Substring(index, maxlen);
+
             return (maxlen, res);
         }
 
@@ -72,7 +79,8 @@ namespace ASD_lab14
             int maxlen = 0, index = 0;
             string text = x + y;
             int[,] tab = new int[x.Length + 1, y.Length + 1];
-
+            if (x.Equals(y))
+                return (x.Length, x);
             for (int i = 0; i < x.Length; i++)
                 tab[i, 0] = 0;
             for (int i = 1; i < y.Length; i++)
@@ -88,7 +96,6 @@ namespace ASD_lab14
                 }
 
             for (int i = 1; i < x.Length + 1; i++)
-            {
                 for (int j = 1; j < y.Length + 1; j++)
                 {
                     if (tab[i, j] > maxlen)
@@ -97,7 +104,6 @@ namespace ASD_lab14
                         maxlen = tab[i, j];
                     }
                 }
-            }
 
             res = x.Substring(index - maxlen + 1, maxlen);
 

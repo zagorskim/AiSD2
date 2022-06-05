@@ -204,6 +204,7 @@ namespace ASD_lab14
                 AddStage1(text: this.GetRandomInput("ab", 1000, 42), longestSubstring: "babaababbababbbaba", timeLimit: 2.5, description: "1000 losowych znaków (mały zbiór)");
                 AddStage1(text: this.GetRandomInput("abcdefghijk", 100, 42), longestSubstring: "fai", timeLimit: 2.5, description: "100 losowych znaków (duży zbiór)");
                 AddStage1(text: this.GetRandomInput("abcdefghijk", 1000, 42), longestSubstring: "ajbif", timeLimit: 2.5, description: "1000 losowych znaków (duży zbiór)");
+                AddStage1(text: "ababab", longestSubstring: "ab", timeLimit: 2.5, description: "Custom test 1");
 
                 AddStage2(y: "abc", x: "ajhdvjhgywqvhgcvjafetyfqniunefivqnfvabcashdbajbiufvbqvfkjqvfvqf", longestSubstring: "abc", timeLimit: 2.5, description: "jeden jest podzbiorem drugiego");
                 AddStage2(y: this.GetRandomInput("ab", 100, 44), x: this.GetRandomInput("cd", 100, 44), longestSubstring: "", timeLimit: 2.5, description: "nic nie się pokrywa");
