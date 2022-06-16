@@ -22,7 +22,13 @@ namespace ASD
         //   2) Graf wynikowy musi być w takiej samej reprezentacji jak wejściowy
         public DiGraph Lab03Reverse(DiGraph g)
         {
-            return null;
+            DiGraph gNew = new DiGraph(g.VertexCount, g.Representation);
+
+            foreach (var e in g.DFS().SearchAll())
+            {
+                gNew.AddEdge(e.To, e.From);
+            }
+            return gNew;
         }
 
         // Część 2
@@ -44,8 +50,70 @@ namespace ASD
         //   4) Metoda ma mieć taki sam rząd złożoności jak zwykłe przeszukiwanie (za większą będą kary!)
         public bool Lab03IsBipartite(Graph g, out int[] vert)
         {
-            vert = null;
-            return false;
+            vert = new int[g.VertexCount];
+
+            vert[0] = 1; // 1 - pierwszy kolor, 2 - drugi kolor
+            //visited[0] = true;
+
+            foreach (var e in g.DFS().SearchAll())
+            {
+                if (vert[e.From] == 0)
+                {
+                    switch (vert[e.To])
+                    {
+                        case 0:
+                            vert[e.From] = 1;
+                            vert[e.To] = 2;
+                            break;
+
+                            // wydaje mi sie ze tego nie trzeba, bo vert[e.From]==0 wystepuje tylko na poczatku skladowej
+                            // a na poczatku skladowej e.To bedzie zawsze 0
+
+                            //case 1:
+                            //    vert[e.From] = 2;
+                            //    break;
+                            //case 2:
+                            //    vert[e.From] = 1;
+                            //    break;
+                    }
+                }
+
+                else if (vert[e.From] == 1)
+                {
+                    switch (vert[e.To])
+                    {
+                        case 1:
+                            vert = null;
+                            return false;
+                        case 0:
+                            vert[e.To] = 2;
+                            break;
+                    }
+                }
+
+                else if (vert[e.From] == 2)
+                {
+                    switch (vert[e.To])
+                    {
+                        case 2:
+                            vert = null;
+                            return false;
+                        case 0:
+                            vert[e.To] = 1;
+                            break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < g.VertexCount; i++)
+            {
+                if (vert[i] == 0)
+                {
+                    vert[i] = 1;
+                }
+            }
+
+            return true;
         }
 
         // Część 3
@@ -68,8 +136,30 @@ namespace ASD
         //   4) Graf wynikowy (drzewo) musi być w takiej samej reprezentacji jak wejściowy
         public Graph<int> Lab03Kruskal(Graph<int> g, out int mstw)
         {
+            PriorityQueue<int, Edge<int>> queue = new PriorityQueue<int, Edge<int>>();
+
+            foreach (var e in g.DFS().SearchAll())
+            {
+                queue.Insert(e, e.weight);
+            }
+
+            UnionFind unionFind = new UnionFind(g.VertexCount);
+            Graph<int> tree = new Graph<int>(g.VertexCount);
             mstw = 0;
-            return null;
+
+            while (queue.Count > 0)
+            {
+                Edge<int> e = queue.Extract();
+
+                if (unionFind.Find(e.From) != unionFind.Find(e.To))
+                {
+                    unionFind.Union(e.From, e.To);
+                    tree.AddEdge(e.From, e.To);
+                    mstw += e.weight;
+                }
+            }
+
+            return tree;
         }
 
         // Część 4
@@ -86,16 +176,39 @@ namespace ASD
         //      Zadanie jest bardzo łatwe (jeśli wydaje się trudne - poszukać prostszego sposobu, a nie walczyć z trudnym!)
         public bool Lab03IsUndirectedAcyclic(Graph g)
         {
-            var visited = new bool[g.VertexCount];
-            int skladowe = 0;
-            int krawedzie = 0;
-            foreach(var e in g.DFS().SearchAll())
+            bool[] visited = new bool[g.VertexCount];
+            int components = 0;
+            int edges = 0;
+            int vertices = g.VertexCount;
+
+
+            foreach (var e in g.DFS().SearchAll())
             {
-                if (!visited[e.From]) skladowe++;
-                visited[e.From] = visited[e.To] = true;
-                if (e.From < e.To) krawedzie++;
+                edges++;
+
+                if (visited[e.From] == false)
+                {
+                    components++;
+                }
+
+                visited[e.From] = true;
+                visited[e.To] = true;
             }
-            return (g.VertexCount - skladowe) == krawedzie;
+
+            edges /= 2;
+
+            // dla wierzchołków izolowanych
+            for (int i = 0; i < vertices; i++)
+            {
+                if (visited[i] == false)
+                {
+                    visited[i] = true;
+                    components++;
+                }
+            }
+
+            if (vertices == edges + components) return true;
+            return false;
         }
 
     }

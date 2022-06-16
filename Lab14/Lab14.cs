@@ -15,38 +15,82 @@ namespace ASD_lab14
         /// length: długość najdłuższego fragmentu powtarzającego się przynajmniej 2 razy <br />
         /// longestCommonSubstring: najdłuższy fragment powtarzający się przynajmniej 2 razy
         /// </returns>
+        //public (int length, string longestSubstring) StageOne(string text)
+        //{
+        //    int maxlen = 0, index = -1;
+        //    string res = "";
+
+        //    for (int i = 0; i < text.Length; i++)
+        //    {
+        //        string temp = text.Substring(i, text.Length - i);
+        //        var p = makeP(temp);
+
+        //        for (int j = 0; j <= temp.Length; j++)
+        //            if (p[j] > maxlen)
+        //            {
+        //                if (p[j] > j / 2)
+        //                {
+        //                    if (j / 2 > maxlen)
+        //                    {
+        //                        index = i;
+        //                        maxlen = (p[j] + 1) / 2;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    index = i;
+        //                    maxlen = p[j];
+        //                }
+        //            }
+        //    }
+        //    if (index > -1)
+        //        res = text.Substring(index, maxlen);
+
+        //    return (maxlen, res);
+        //}
         public (int length, string longestSubstring) StageOne(string text)
         {
-            int maxlen = 0, index = -1;
-            string res = "";
+            int maxRet = -1;
+            string maxStr = "";
 
-            for (int i = 0; i < text.Length; i++)
+            for (int start = 0; start < text.Length; start++)
             {
-                string temp = text.Substring(i, text.Length - i);
-                var p = makeP(temp);
+                string s = text.Substring(start);
 
-                for (int j = 0; j <= temp.Length; j++)
-                    if (p[j] > maxlen)
+                int[] P = new int[s.Length + 1];
+                int t = 0;
+
+                for (int i = 2; i <= s.Length; i++)
+                {
+                    while (s[t] != s[i - 1] && t > 0)
+                        t = P[t];
+                    P[i] = t;
+                    if (s[i - 1] == s[t])
+                        P[i] = ++t;
+                }
+
+                for (int i = 0; i < P.Length; i++)
+                {
+                    if (P[i] > maxRet)
                     {
-                        if (p[j] > j / 2)
+                        if (P[i] > i / 2)
                         {
-                            if (j / 2 > maxlen)
+                            if (i / 2 > maxRet)
                             {
-                                index = i;
-                                maxlen = (p[j] + 1) / 2;
+                                maxRet = (P[i] + 1) /2;
+                                maxStr = s.Substring(0, maxRet);
                             }
                         }
                         else
                         {
-                            index = i;
-                            maxlen = p[j];
+                            maxRet = P[i];
+                            maxStr = s.Substring(0, maxRet);
                         }
                     }
+                }
             }
-            if (index > -1)
-                res = text.Substring(index, maxlen);
 
-            return (maxlen, res);
+            return (maxRet, maxStr);
         }
 
         static int[] makeP(string s)

@@ -13,7 +13,21 @@ namespace ASD
         // (ale pętli, czyli krawędzi o początku i końcu w tym samym wierzchołku, nie dodajemy!).
         public Graph Square(Graph graph)
         {
-            return null;
+            Graph g = new Graph(graph.VertexCount, graph.Representation);
+
+            for (int i = 0; i < graph.VertexCount; i++)
+            {
+                foreach (int neighbor in graph.OutNeighbors(i))
+                {
+                    if (i != neighbor) g.AddEdge(i, neighbor);
+                    foreach (int neighbor2 in graph.OutNeighbors(neighbor))
+                    {
+                        if (i != neighbor2) g.AddEdge(i, neighbor2);
+                    }
+                }
+            }
+
+            return g;
         }
 
         // Część II
@@ -28,8 +42,38 @@ namespace ASD
         // Np.dla wierzchołka powstałego z krawedzi <0,1> do tablicy zapisujemy krotke (0, 1) - przyda się w dalszych etapach
         public Graph LineGraph(Graph graph, out (int x, int y)[] names)
         {
-            names = null;
-            return null;
+            int edges = 0;
+            foreach (Edge e in graph.DFS().SearchAll())
+            {
+                edges++;
+            }
+            edges /= 2;
+
+            Graph linegraph = new Graph(edges, graph.Representation);
+            names = new (int x, int y)[edges];
+
+            int k = 0;
+            foreach (Edge e in graph.DFS().SearchAll())
+            {
+                if (e.To > e.From) names[k++] = (e.From, e.To);
+            }
+
+            for (int i = 0; i < edges; i++)
+            {
+                for (int j = 0; j < edges; j++)
+                {
+                    if (i == j) continue;
+                    if (names[i].x == names[j].x
+                        || names[i].x == names[j].y
+                        || names[i].y == names[j].x
+                        || names[i].y == names[j].y)
+                    {
+                        if (linegraph.HasEdge(i, j) == false) linegraph.AddEdge(i, j);
+                    }
+                }
+            }
+
+            return linegraph;
         }
 
         // Część III
@@ -48,7 +92,49 @@ namespace ASD
         // a w tablicy colors zapamiętuje kolory poszczególnych wierzchołkow.
         public int VertexColoring(Graph graph, out int[] colors)
         {
-            return 0;
+            colors = new int[graph.VertexCount];
+            int colUsed = 0;
+
+            for (int i = 0; i < graph.VertexCount; i++)
+            {
+                colors[i] = -1;
+            }
+
+            for (int i = 0; i < graph.VertexCount; i++)
+            {
+                if (colUsed == 0)
+                {
+                    colors[colUsed] = colUsed++;
+                }
+                else // kolejne
+                {
+                    bool[] colOccupied = new bool[colUsed];
+                    foreach (int neighbor in graph.OutNeighbors(i))
+                    {
+                        if (colors[neighbor] > -1)
+                        {
+                            colOccupied[colors[neighbor]] = true;
+                        }
+                    }
+
+                    for (int j = 0; j < colUsed; j++)
+                    {
+                        if (colOccupied[j] == false)
+                        {
+                            colors[i] = j;
+                            break;
+                        }
+                    }
+
+                    if (colors[i] == -1)
+                    {
+                        colors[i] = colUsed++;
+                    }
+                }
+            }
+
+
+            return colUsed;
         }
 
         // Funkcja znajduje silne kolorowanie krawędzi danego grafu.
@@ -64,8 +150,24 @@ namespace ASD
         // Jak się to ma do silnego kolorowania krawędzi grafu pierwotnego?
         public int StrongEdgeColoring(Graph graph, out Graph<int> coloredGraph)
         {
-            coloredGraph = null;
-            return 0;
+            (int x, int y)[] names;
+            Graph linegraph = LineGraph(graph, out names);
+
+            Graph linegraphSquare = Square(linegraph);
+
+            int[] colors;
+            int colorsUsed = VertexColoring(linegraphSquare, out colors);
+
+            coloredGraph = new Graph<int>(graph.VertexCount, graph.Representation);
+
+            for (int i = 0; i < names.Length; i++)
+            {
+                coloredGraph.AddEdge(names[i].x, names[i].y, colors[i]);
+            }
+
+
+            //coloredGraph = null;
+            return colorsUsed;
         }
 
     }

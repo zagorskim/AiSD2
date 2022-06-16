@@ -212,7 +212,7 @@ namespace ASD_lab14
                 AddStage2(y: this.GetRandomInput("ab", 100, 44), x: this.GetRandomInput("ab", 100, 43), longestSubstring: "aabbbabbaababbaa", timeLimit: 2.5, description: "100 losowych znaków (mały zbiór)");
                 AddStage2(y: this.GetRandomInput("ab", 1000, 44), x: this.GetRandomInput("ab", 1000, 43), longestSubstring: "aaaaabaaaababbbaaaaba", timeLimit: 2.5, description: "1000 losowych znaków (mały zbiór)");
                 AddStage2(y: this.GetRandomInput("abcdefghijk", 100, 44), x: this.GetRandomInput("abcdefghijk", 100, 43), longestSubstring: "adbk", timeLimit: 2.5, description: "100 losowych znaków (duży zbiór)");
-                AddStage2(y: this.GetRandomInput("abcdefghijk", 1000, 44), x: this.GetRandomInput("abcdefghijk", 1000, 43), longestSubstring: "hjidba", timeLimit: 2.5, description: "1000 losowych znaków (duży zbiór)");
+                AddStage2(y: this.GetRandomInput("ababab", 1000, 44), x: this.GetRandomInput("abcdefghijk", 1000, 43), longestSubstring: "hjidba", timeLimit: 2.5, description: "1000 losowych znaków (duży zbiór)");
             }
 
             private string GetRandomInput(string letters, int length, int seed)
